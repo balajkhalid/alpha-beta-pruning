@@ -1,1 +1,1 @@
-# alpha-beta-pruning
+# Alpha Beta Pruning
