@@ -8,83 +8,97 @@
     <style>
         #network {
             width: 100%;
-            height: 400px;
+            height: 600px;
             border: 1px solid lightgray;
+        }
+
+        #form {
+            margin-top: 20px;
+        }
+
+        #form input[type="text"] {
+            margin-right: 10px;
+        }
+
+        #form button {
+            margin-top: 10px;
+        }
+
+        #levels {
+            margin-top: 20px;
         }
     </style>
 </head>
 <body>
     <div id="network"></div>
+    <div id="form">
+        <label for="node">Node:</label>
+        <input type="text" id="node">
+        <button onclick="addNode()">Add Node</button>
+        <label for="from">From:</label>
+        <input type="text" id="from">
+        <label for="to">To:</label>
+        <input type="text" id="to">
+        <button onclick="addEdge()">Add Edge</button>
+    </div>
+    <div id="levels">
+        <label for="min">Min Level:</label>
+        <input type="text" id="min" value="0">
+        <label for="max">Max Level:</label>
+        <input type="text" id="max" value="100">
+    </div>
 
     <script src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
     <script>
-        // create an array with nodes
-        var nodes = new vis.DataSet([
-            {id: 0, label: 'A\n(0, 100)'},
-            {id: 1, label: 'B\n(0, 100)'},
-            {id: 2, label: 'C\n(0, 100)'},
-            {id: 3, label: 'D\n(0, 100)'},
-            {id: 4, label: 'E\n(0, 100)'},
-            {id: 5, label: 'F\n(0, 100)'},
-            {id: 6, label: 'G\n(0, 100)'},
-            {id: 7, label: 'H\n(0, 100)'},
-            {id: 8, label: 'I\n(0, 100)'},
-            {id: 9, label: 'J\n(0, 100)'},
-            {id: 10, label: 'K\n(0, 100)'},
-            {id: 11, label: 'L\n(0, 100)'},
-            {id: 12, label: 'M\n(0, 100)'},
-            {id: 13, label: 'N\n(0, 100)'},
-            {id: 14, label: 'O\n(0, 100)'},
-            {id: 15, label: 'P\n(0, 100)'},
-            {id: 16, label: 'Q\n(0, 100)'},
-            {id: 17, label: 'R\n(0, 100)'},
-            {id: 18, label: 'S\n(0, 100)'},
-            {id: 19, label: 'T\n(0, 100)'},
-            {id: 20, label: 'U\n(0, 100)'},
-            {id: 21, label: 'V\n(0, 100)'},
-            {id: 22, label: 'W\n(0, 100)'},
-            {id: 23, label: 'X\n(0, 100)'},
-            {id: 24, label: 'Y\n(0, 100)'},
-            {id: 25, label: 'Z\n(0, 100)'},
-        ]);
-
-        // create an array with edges
-        var edges = new vis.DataSet([
-            {from: 0, to: 1},
-            {from: 0, to: 2},
-            {from: 0, to: 3},
-            {from: 1, to: 4},
-            {from: 1, to: 5},
-            {from: 1, to: 6},
-            {from: 2, to: 7},
-            {from: 2, to: 8},
-            {from: 2, to: 9},
-            {from: 3, to: 10},
-            {from: 3, to: 11},
-            {from: 3, to: 12},
-            {from: 4, to: 13},
-            {from: 4, to: 14},
-            {from: 4, to: 15},
-            {from: 5, to: 16},
-            {from: 5, to: 17},
-            {from: 5, to: 18},
-            {from: 6, to: 19},
-            {from: 6, to: 20},
-            {from: 6, to: 21},
-            {from: 7, to: 22},
-            {from: 7, to: 23},
-            {from: 7, to: 24},
-            {from: 8, to: 25},
-        ]);
-
-        // create a network
+        var nodes = new vis.DataSet([]);
+        var edges = new vis.DataSet([]);
         var container = document.getElementById('network');
         var data = {
             nodes: nodes,
             edges: edges
         };
-        var options = {};
+        var options = {
+            layout: {
+                hierarchical: {
+                    direction: 'UD',
+                    sortMethod: 'directed',
+                    levelSeparation: 200,
+                    nodeSpacing: 200
+                }
+            }
+        };
         var network = new vis.Network(container, data, options);
+
+        function addNode() {
+            var nodeId = document.getElementById('node').value.trim();
+            if (nodeId !== '') {
+                nodes.add({ id: nodeId, label: nodeId });
+                document.getElementById('node').value = '';
+            }
+        }
+
+        function addEdge() {
+            var fromNode = document.getElementById('from').value.trim();
+            var toNode = document.getElementById('to').value.trim();
+            if (fromNode !== '' && toNode !== '') {
+                edges.add({ from: fromNode, to: toNode });
+                document.getElementById('from').value = '';
+                document.getElementById('to').value = '';
+            }
+        }
+
+        function setLevels() {
+            var minLevel = parseInt(document.getElementById('min').value, 10);
+            var maxLevel = parseInt(document.getElementById('max').value, 10);
+            if (!isNaN(minLevel) && !isNaN(maxLevel)) {
+                options.layout.hierarchical.levelMin = minLevel;
+                options.layout.hierarchical.levelMax = maxLevel;
+                network.setOptions(options);
+            }
+        }
+
+        document.getElementById('min').addEventListener('change', setLevels);
+        document.getElementById('max').addEventListener('change', setLevels);
     </script>
 </body>
 </html>
