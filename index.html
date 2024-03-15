@@ -1,104 +1,46 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Alpha-Beta Pruning Graph</title>
     <style>
-        #network {
-            width: 100%;
-            height: 600px;
-            border: 1px solid lightgray;
+        /* Styling for the tree */
+        ul {
+            padding-left: 20px;
+            list-style-type: none;
         }
-
-        #form {
-            margin-top: 20px;
-        }
-
-        #form input[type="text"] {
-            margin-right: 10px;
-        }
-
-        #form button {
+        li {
             margin-top: 10px;
+            border: 1px solid #ccc;
+            padding: 5px;
+            border-radius: 5px;
+            width: 100px;
+            text-align: center;
         }
-
-        #levels {
-            margin-top: 20px;
+        .min {
+            background-color: #f9f9f9;
+        }
+        .max {
+            background-color: #e9f9e9;
         }
     </style>
 </head>
 <body>
-    <div id="network"></div>
-    <div id="form">
-        <label for="node">Node:</label>
-        <input type="text" id="node">
-        <button onclick="addNode()">Add Node</button>
-        <label for="from">From:</label>
-        <input type="text" id="from">
-        <label for="to">To:</label>
-        <input type="text" id="to">
-        <button onclick="addEdge()">Add Edge</button>
-    </div>
-    <div id="levels">
-        <label for="min">Min Level:</label>
-        <input type="text" id="min" value="0">
-        <label for="max">Max Level:</label>
-        <input type="text" id="max" value="100">
-    </div>
-
-    <script src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
-    <script>
-        var nodes = new vis.DataSet([]);
-        var edges = new vis.DataSet([]);
-        var container = document.getElementById('network');
-        var data = {
-            nodes: nodes,
-            edges: edges
-        };
-        var options = {
-            layout: {
-                hierarchical: {
-                    direction: 'UD',
-                    sortMethod: 'directed',
-                    levelSeparation: 200,
-                    nodeSpacing: 200
-                }
-            }
-        };
-        var network = new vis.Network(container, data, options);
-
-        function addNode() {
-            var nodeId = document.getElementById('node').value.trim();
-            if (nodeId !== '') {
-                nodes.add({ id: nodeId, label: nodeId });
-                document.getElementById('node').value = '';
-            }
-        }
-
-        function addEdge() {
-            var fromNode = document.getElementById('from').value.trim();
-            var toNode = document.getElementById('to').value.trim();
-            if (fromNode !== '' && toNode !== '') {
-                edges.add({ from: fromNode, to: toNode });
-                document.getElementById('from').value = '';
-                document.getElementById('to').value = '';
-            }
-        }
-
-        function setLevels() {
-            var minLevel = parseInt(document.getElementById('min').value, 10);
-            var maxLevel = parseInt(document.getElementById('max').value, 10);
-            if (!isNaN(minLevel) && !isNaN(maxLevel)) {
-                options.layout.hierarchical.levelMin = minLevel;
-                options.layout.hierarchical.levelMax = maxLevel;
-                network.setOptions(options);
-            }
-        }
-
-        document.getElementById('min').addEventListener('change', setLevels);
-        document.getElementById('max').addEventListener('change', setLevels);
-    </script>
+    <ul>
+        <li class="max">10
+            <ul>
+                <li class="min">5
+                    <ul>
+                        <li class="max">7</li>
+                        <li class="max">3</li>
+                    </ul>
+                </li>
+                <li class="min">6
+                    <ul>
+                        <li class="max">2</li>
+                        <li class="max">9</li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+    </ul>
 </body>
 </html>
