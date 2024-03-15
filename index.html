@@ -40,22 +40,58 @@
 </head>
 <body>
 <div class="container">
-    <div class="tree">
-        <div class="node" style="top: 20px; left: 50%;">Max</div>
-        <div class="edge" style="top: 50px; left: 50%; width: 0; height: 50px; border-top: none;"></div>
-        <div class="node" style="top: 100px; left: 25%;">Min</div>
-        <div class="edge" style="top: 125px; left: 25%; width: 0; height: 50px;"></div>
-        <div class="node" style="top: 100px; left: 75%;">Min</div>
-        <div class="edge" style="top: 125px; left: 75%; width: 0; height: 50px;"></div>
-        <div class="node" style="top: 200px; left: 12.5%;">Max</div>
-        <div class="edge" style="top: 225px; left: 12.5%; width: 0; height: 50px;"></div>
-        <div class="node" style="top: 200px; left: 37.5%;">Max</div>
-        <div class="edge" style="top: 225px; left: 37.5%; width: 0; height: 50px;"></div>
-        <div class="node" style="top: 200px; left: 62.5%;">Max</div>
-        <div class="edge" style="top: 225px; left: 62.5%; width: 0; height: 50px;"></div>
-        <div class="node" style="top: 200px; left: 87.5%;">Max</div>
-        <div class="edge" style="top: 225px; left: 87.5%; width: 0; height: 50px;"></div>
+    <div class="tree" id="tree">
     </div>
 </div>
+<script>
+    const tree = document.getElementById('tree');
+
+    function createNode(value, level, parent) {
+        const node = document.createElement('div');
+        node.classList.add('node');
+        node.innerText = value;
+        const top = (level + 1) * 100;
+        const left = parent ? parent.offsetLeft + 150 : 50;
+        node.style.top = `${top}px`;
+        node.style.left = `${left}px`;
+        tree.appendChild(node);
+        return node;
+    }
+
+    function createEdge(parent, child) {
+        const edge = document.createElement('div');
+        edge.classList.add('edge');
+        const parentTop = parent.offsetTop + 25;
+        const parentLeft = parent.offsetLeft + 25;
+        const childTop = child.offsetTop + 25;
+        const childLeft = child.offsetLeft + 25;
+        edge.style.top = `${parentTop}px`;
+        edge.style.left = `${parentLeft}px`;
+        edge.style.width = `${childLeft - parentLeft}px`;
+        edge.style.height = `${childTop - parentTop}px`;
+        tree.appendChild(edge);
+    }
+
+    function buildTree() {
+        const rootValue = prompt('Enter value for root node:');
+        const rootNode = createNode(rootValue, 0);
+        buildSubtree(rootNode, 1);
+    }
+
+    function buildSubtree(parent, level) {
+        const childrenCount = prompt(`Enter number of children for node ${parent.innerText}:`);
+        for (let i = 0; i < childrenCount; i++) {
+            const value = prompt(`Enter value for child ${i + 1} of node ${parent.innerText}:`);
+            const child = createNode(value, level, parent);
+            createEdge(parent, child);
+            if (level % 2 === 1) {
+                // Min level, continue building subtree
+                buildSubtree(child, level + 1);
+            }
+        }
+    }
+
+    buildTree();
+</script>
 </body>
 </html>
