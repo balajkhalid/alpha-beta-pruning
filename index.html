@@ -1,46 +1,61 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <style>
-        /* Styling for the tree */
-        ul {
-            padding-left: 20px;
-            list-style-type: none;
-        }
-        li {
-            margin-top: 10px;
-            border: 1px solid #ccc;
-            padding: 5px;
-            border-radius: 5px;
-            width: 100px;
-            text-align: center;
-        }
-        .min {
-            background-color: #f9f9f9;
-        }
-        .max {
-            background-color: #e9f9e9;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MiniMax Algorithm Visualization</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+    }
+    .container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+    .tree {
+        position: relative;
+    }
+    .node {
+        border: 1px solid #333;
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: absolute;
+        background-color: #fff;
+        z-index: 1;
+    }
+    .edge {
+        position: absolute;
+        border: 1px solid #333;
+        z-index: 0;
+    }
+</style>
 </head>
 <body>
-    <ul>
-        <li class="max">10
-            <ul>
-                <li class="min">5
-                    <ul>
-                        <li class="max">7</li>
-                        <li class="max">3</li>
-                    </ul>
-                </li>
-                <li class="min">6
-                    <ul>
-                        <li class="max">2</li>
-                        <li class="max">9</li>
-                    </ul>
-                </li>
-            </ul>
-        </li>
-    </ul>
+<div class="container">
+    <div class="tree">
+        <div class="node" style="top: 20px; left: 50%;">Max</div>
+        <div class="edge" style="top: 50px; left: 50%; width: 0; height: 50px; border-top: none;"></div>
+        <div class="node" style="top: 100px; left: 25%;">Min</div>
+        <div class="edge" style="top: 125px; left: 25%; width: 0; height: 50px;"></div>
+        <div class="node" style="top: 100px; left: 75%;">Min</div>
+        <div class="edge" style="top: 125px; left: 75%; width: 0; height: 50px;"></div>
+        <div class="node" style="top: 200px; left: 12.5%;">Max</div>
+        <div class="edge" style="top: 225px; left: 12.5%; width: 0; height: 50px;"></div>
+        <div class="node" style="top: 200px; left: 37.5%;">Max</div>
+        <div class="edge" style="top: 225px; left: 37.5%; width: 0; height: 50px;"></div>
+        <div class="node" style="top: 200px; left: 62.5%;">Max</div>
+        <div class="edge" style="top: 225px; left: 62.5%; width: 0; height: 50px;"></div>
+        <div class="node" style="top: 200px; left: 87.5%;">Max</div>
+        <div class="edge" style="top: 225px; left: 87.5%; width: 0; height: 50px;"></div>
+    </div>
+</div>
 </body>
 </html>
